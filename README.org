@@ -1,0 +1,26 @@
+#+title: Cryptpad role
+#+author: Chris Wolf <chris@chriswolf.ch>
+
+This is a simple role that installs cryptpad.
+
+It is quite oppinionated and may not meet your needs.
+
+* Requirements
+The role uses a systemd service.
+It also assumes that nodejs and npm are already present by other means.
+The role can create an nginx config but it won't install nginx.
+
+* Configuration
+There are many variables you can adjust to configure the role.
+
+| Name                     | Default                     | Description                |
+|--------------------------+-----------------------------+----------------------------|
+| =cryptpad_user=          | cryptpad                    | user running cryptpad      |
+| =cryptpad_group=         | cryptpad                    | group running cryptpad     |
+| =cryptpad_user_home_dir= | /home/={{ cryptpad_user }}= | Home directory of the user |
+|                          |                             |                            |
+|                          |                             |                            |
+|                          |                             |                            |
+|                          |                             |                            |
+|                          |                             |                            |
+|                          |                             |                            |
