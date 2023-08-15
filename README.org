@@ -9,18 +9,35 @@ It is quite oppinionated and may not meet your needs.
 The role uses a systemd service.
 It also assumes that nodejs and npm are already present by other means.
 The role can create an nginx config but it won't install nginx.
+It will also not create a ssl cert on it's own.
 
 * Configuration
 There are many variables you can adjust to configure the role.
 
-| Name                     | Default                     | Description                |
-|--------------------------+-----------------------------+----------------------------|
-| =cryptpad_user=          | cryptpad                    | user running cryptpad      |
-| =cryptpad_group=         | cryptpad                    | group running cryptpad     |
-| =cryptpad_user_home_dir= | /home/={{ cryptpad_user }}= | Home directory of the user |
-|                          |                             |                            |
-|                          |                             |                            |
-|                          |                             |                            |
-|                          |                             |                            |
-|                          |                             |                            |
-|                          |                             |                            |
+| Name                             | Default                                                        | Description                |
+|----------------------------------+----------------------------------------------------------------+----------------------------|
+| =cryptpad_user=                  | cryptpad                                                       | user running cryptpad      |
+| =cryptpad_group=                 | cryptpad                                                       | group running cryptpad     |
+| =cryptpad_user_home_dir=         | /home/{{ cryptpad_user }}                                      | Home directory of the user |
+| =cryptpad_dir=                   | {{ cryptpad_user_home_dir }}/cryptpad                          | directory for cryptpad     |
+| =cryptpad_version=               | main                                                           | version to install         |
+| =cryptpad_npm_executable=        | npm                                                            | npm executable             |
+| =cryptpad_node_executable=       | node                                                           | node                       |
+| =cryptpad_config_file=           | cryptpad/config.js.j2                                          | config file template       |
+| =cryptpad_unsafe_domain=         | cryptpad.example.com                                           | unsafe/main domain         |
+| =cryptpad_safe_domain=           | cryptpad-other.example.com                                     | safe domain                |
+| =cryptpad_unsafe_origin=         | https://{{ cryptpad_unsafe_domain }}                           | unsafe origin              |
+| =cryptpad_safe_origin=           | https://{{ cryptpad_safe_domain }}                             | safe origin                |
+| =cryptpad_http_port=             | 3000                                                           | http port                  |
+| =cryptpad_safe_http_port=        | 3001                                                           | http safe port             |
+| =cryptpad_websoket_port=         | 3003                                                           | websocket port             |
+| =cryptpad_admins=                | []                                                             | array of admins            |
+| =cryptpad_file_path=             | ./datastore/                                                   | file path                  |
+| =cryptpad_archive_path=          | ./data/archive                                                 | archive path               |
+| =cryptpad_service_template=      | cryptpad/cryptpad.service.j2                                   | cryptpad service template  |
+| =cryptpad_service_name=          | cryptpad                                                       | service name:              |
+| =cryptpad_setup_nginx_proxy=     | yes                                                            | setup nginx proxy          |
+| =cryptpad_nginx_config_path=     | /etc/nginx/sites-enabled/cryptpad.conf                         | path for the config file   |
+| =cryptpad_nginx_config_template= | nginx/cryptpad.conf.j2                                         | cryptpad service template  |
+| =cryptpad_nginx_cert=            | /etc/letsencrypt/live/{{ cryptpad_safe_domain }}/fullchain.pem | SSL cert path              |
+| =cryptpad_nginx_key=             | /etc/letsencrypt/live/{{ cryptpad_safe_domain }}/privkey.pem   | SSL key path               |
