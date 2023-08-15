@@ -1,0 +1,10 @@
+- name: restart cryptpad
+  systemd:
+    name: "{{ cryptpad_service_name }}"
+    state: restarted
+    daemon_reload: yes
+
+- name: restart nginx
+  service:
+    name: "nginx"
+    state: restarted

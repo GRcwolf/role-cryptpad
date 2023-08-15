@@ -1,0 +1,59 @@
+- name: Create cryptpad group
+  group:
+    name: "{{ cryptpad_group }}"
+    state: present
+
+- name: Create cryptpad user
+  user:
+    name: "{{ cryptpad_user }}"
+    state: present
+    password: '!'
+    home: "{{ cryptpad_user_home_dir }}"
+    group: "{{ cryptpad_group }}"
+
+- name: Setup repository
+  become: yes
+  become_user: "{{ cryptpad_user }}"
+  git:
+    repo: "{{ cryptpad_repo }}"
+    update: yes
+    dest: "{{ cryptpad_dir }}"
+    version: "{{ cryptpad_version }}"
+  register: cryptpad_repo
+  notify: restart cryptpad
+
+- name: Install dependencies
+  become: yes
+  become_user: "{{ cryptpad_user }}"
+  command: "{{ cryptpad_npm_executable }} install && {{ crpytpad_npm_executable }} run install:components"
+  args:
+    chdir: "{{ cryptpad_dir }}"
+  when: cryptpad_repo.changed
+
+- name: Setup config
+  become: yes
+  become_user: "{{ cryptpad_user }}"
+  template:
+    src: "{{ cryptpad_config_file }}"
+    dest: "{{ cryptpad_dir }}/config/config.js"
+  notify: restart cryptpad
+
+- name: Create service
+  template:
+    src: "{{ cryptpad_service_template }}"
+    dest: "/etc/systemd/system/cryptpad.service"
+  notify: restart cryptpad
+
+- name: Enable service
+  systemd:
+    name: "{{ cryptpad_service_name }}"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+
+- name: Create Nginx config
+  template:
+    src: "{{ cryptpad_nginx_config_template }}"
+    dest: "{{ cryptpad_nginx_config_path }}"
+  when: cryptpad_setup_nginx_proxy
+  notify: restart nginx

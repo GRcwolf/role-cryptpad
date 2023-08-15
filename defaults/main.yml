@@ -1,0 +1,25 @@
+cryptpad_user: cryptpad
+cryptpad_group: cryptpad
+cryptpad_user_home_dir: "/home/{{ cryptpad_user }}"
+cryptpad_dir: "{{ cryptpad_user_home_dir }}/cryptpad"
+cryptpad_version: main
+cryptpad_npm_executable: npm
+cryptpad_node_executable: node
+cryptpad_config_file: "cryptpad/config.js.j2"
+cryptpad_unsafe_domain: "cryptpad.example.com"
+cryptpad_unsafe_origin: "https://{{ cryptpad_unsafe_domain }}"
+cryptpad_safe_domain: "cryptpad-other.example.com"
+cryptpad_safe_origin: "https://{{ cryptpad_safe_domain }}"
+cryptpad_http_port: 3000
+cryptpad_safe_http_port: 3001
+cryptpad_websoket_port: 3003
+cryptpad_admins: []
+cryptpad_file_path: "./datastore/"
+cryptpad_archive_path: "./data/archive"
+cryptpad_service_template: "cryptpad/cryptpad.service.j2"
+cryptpad_service_name: 'cryptpad'
+cryptpad_setup_nginx_proxy: yes
+cryptpad_nginx_config_path: "/etc/nginx/sites-enabled/cryptpad.conf"
+cryptpad_nginx_config_template: "nginx/cryptpad.conf.j2"
+cryptpad_nginx_cert: "/etc/letsencrypt/live/{{ cryptpad_safe_domain }}/fullchain.pem"
+cryptpad_nginx_key: "/etc/letsencrypt/live/{{ cryptpad_safe_domain }}/privkey.pem"
